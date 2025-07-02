@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "build": "esbuild src/motorcycle-weather-card.js --bundle --outfile=dist/motorcycle-weather-card.js"
+  },
+  "dependencies": {
+    "esbuild": "^0.25.5",
+    "lit": "^3.3.0"
+  }
+}

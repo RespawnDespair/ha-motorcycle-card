@@ -1,5 +1,5 @@
 {
   "name": "Motorcycle Weather Card",
   "render_readme": true,
-  "filename": "motorcycle-weather-card.js"
+  "filename": "dist/motorcycle-weather-card.js"
 }
