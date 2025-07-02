@@ -1,4 +1,44 @@
 (() => {
+  var __defProp = Object.defineProperty;
+  var __defProps = Object.defineProperties;
+  var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
+  var __getOwnPropSymbols = Object.getOwnPropertySymbols;
+  var __hasOwnProp = Object.prototype.hasOwnProperty;
+  var __propIsEnum = Object.prototype.propertyIsEnumerable;
+  var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+  var __spreadValues = (a3, b3) => {
+    for (var prop in b3 || (b3 = {}))
+      if (__hasOwnProp.call(b3, prop))
+        __defNormalProp(a3, prop, b3[prop]);
+    if (__getOwnPropSymbols)
+      for (var prop of __getOwnPropSymbols(b3)) {
+        if (__propIsEnum.call(b3, prop))
+          __defNormalProp(a3, prop, b3[prop]);
+      }
+    return a3;
+  };
+  var __spreadProps = (a3, b3) => __defProps(a3, __getOwnPropDescs(b3));
+  var __async = (__this, __arguments, generator) => {
+    return new Promise((resolve, reject) => {
+      var fulfilled = (value) => {
+        try {
+          step(generator.next(value));
+        } catch (e4) {
+          reject(e4);
+        }
+      };
+      var rejected = (value) => {
+        try {
+          step(generator.throw(value));
+        } catch (e4) {
+          reject(e4);
+        }
+      };
+      var step = (x2) => x2.done ? resolve(x2.value) : Promise.resolve(x2.value).then(fulfilled, rejected);
+      step((generator = generator.apply(__this, __arguments)).next());
+    });
+  };
+
   // node_modules/@lit/reactive-element/css-tag.js
   var t = globalThis;
   var e = t.ShadowRoot && (void 0 === t.ShadyCSS || t.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype;
@@ -82,10 +122,12 @@
   } };
   var f = (t3, s4) => !i2(t3, s4);
   var b = { attribute: true, type: String, converter: u, reflect: false, useDefault: false, hasChanged: f };
-  Symbol.metadata ??= Symbol("metadata"), a.litPropertyMetadata ??= /* @__PURE__ */ new WeakMap();
+  var _a, _b;
+  (_a = Symbol.metadata) != null ? _a : Symbol.metadata = Symbol("metadata"), (_b = a.litPropertyMetadata) != null ? _b : a.litPropertyMetadata = /* @__PURE__ */ new WeakMap();
   var y = class extends HTMLElement {
     static addInitializer(t3) {
-      this._$Ei(), (this.l ??= []).push(t3);
+      var _a6;
+      this._$Ei(), ((_a6 = this.l) != null ? _a6 : this.l = []).push(t3);
     }
     static get observedAttributes() {
       return this.finalize(), this._$Eh && [...this._$Eh.keys()];
@@ -97,18 +139,20 @@
       }
     }
     static getPropertyDescriptor(t3, s4, i5) {
-      const { get: e4, set: r4 } = h(this.prototype, t3) ?? { get() {
+      var _a6;
+      const { get: e4, set: r4 } = (_a6 = h(this.prototype, t3)) != null ? _a6 : { get() {
         return this[s4];
       }, set(t4) {
         this[s4] = t4;
       } };
       return { get: e4, set(s5) {
-        const h3 = e4?.call(this);
-        r4?.call(this, s5), this.requestUpdate(t3, h3, i5);
+        const h3 = e4 == null ? void 0 : e4.call(this);
+        r4 == null ? void 0 : r4.call(this, s5), this.requestUpdate(t3, h3, i5);
       }, configurable: true, enumerable: true };
     }
     static getPropertyOptions(t3) {
-      return this.elementProperties.get(t3) ?? b;
+      var _a6;
+      return (_a6 = this.elementProperties.get(t3)) != null ? _a6 : b;
     }
     static _$Ei() {
       if (this.hasOwnProperty(d("elementProperties"))) return;
@@ -149,13 +193,16 @@
       super(), this._$Ep = void 0, this.isUpdatePending = false, this.hasUpdated = false, this._$Em = null, this._$Ev();
     }
     _$Ev() {
-      this._$ES = new Promise((t3) => this.enableUpdating = t3), this._$AL = /* @__PURE__ */ new Map(), this._$E_(), this.requestUpdate(), this.constructor.l?.forEach((t3) => t3(this));
+      var _a6;
+      this._$ES = new Promise((t3) => this.enableUpdating = t3), this._$AL = /* @__PURE__ */ new Map(), this._$E_(), this.requestUpdate(), (_a6 = this.constructor.l) == null ? void 0 : _a6.forEach((t3) => t3(this));
     }
     addController(t3) {
-      (this._$EO ??= /* @__PURE__ */ new Set()).add(t3), void 0 !== this.renderRoot && this.isConnected && t3.hostConnected?.();
+      var _a6, _b2;
+      ((_a6 = this._$EO) != null ? _a6 : this._$EO = /* @__PURE__ */ new Set()).add(t3), void 0 !== this.renderRoot && this.isConnected && ((_b2 = t3.hostConnected) == null ? void 0 : _b2.call(t3));
     }
     removeController(t3) {
-      this._$EO?.delete(t3);
+      var _a6;
+      (_a6 = this._$EO) == null ? void 0 : _a6.delete(t3);
     }
     _$E_() {
       const t3 = /* @__PURE__ */ new Map(), s4 = this.constructor.elementProperties;
@@ -163,62 +210,78 @@
       t3.size > 0 && (this._$Ep = t3);
     }
     createRenderRoot() {
-      const t3 = this.shadowRoot ?? this.attachShadow(this.constructor.shadowRootOptions);
+      var _a6;
+      const t3 = (_a6 = this.shadowRoot) != null ? _a6 : this.attachShadow(this.constructor.shadowRootOptions);
       return S(t3, this.constructor.elementStyles), t3;
     }
     connectedCallback() {
-      this.renderRoot ??= this.createRenderRoot(), this.enableUpdating(true), this._$EO?.forEach((t3) => t3.hostConnected?.());
+      var _a6, _b2;
+      (_a6 = this.renderRoot) != null ? _a6 : this.renderRoot = this.createRenderRoot(), this.enableUpdating(true), (_b2 = this._$EO) == null ? void 0 : _b2.forEach((t3) => {
+        var _a7;
+        return (_a7 = t3.hostConnected) == null ? void 0 : _a7.call(t3);
+      });
     }
     enableUpdating(t3) {
     }
     disconnectedCallback() {
-      this._$EO?.forEach((t3) => t3.hostDisconnected?.());
+      var _a6;
+      (_a6 = this._$EO) == null ? void 0 : _a6.forEach((t3) => {
+        var _a7;
+        return (_a7 = t3.hostDisconnected) == null ? void 0 : _a7.call(t3);
+      });
     }
     attributeChangedCallback(t3, s4, i5) {
       this._$AK(t3, i5);
     }
     _$ET(t3, s4) {
+      var _a6;
       const i5 = this.constructor.elementProperties.get(t3), e4 = this.constructor._$Eu(t3, i5);
       if (void 0 !== e4 && true === i5.reflect) {
-        const h3 = (void 0 !== i5.converter?.toAttribute ? i5.converter : u).toAttribute(s4, i5.type);
+        const h3 = (void 0 !== ((_a6 = i5.converter) == null ? void 0 : _a6.toAttribute) ? i5.converter : u).toAttribute(s4, i5.type);
         this._$Em = t3, null == h3 ? this.removeAttribute(e4) : this.setAttribute(e4, h3), this._$Em = null;
       }
     }
     _$AK(t3, s4) {
+      var _a6, _b2, _c, _d;
       const i5 = this.constructor, e4 = i5._$Eh.get(t3);
       if (void 0 !== e4 && this._$Em !== e4) {
-        const t4 = i5.getPropertyOptions(e4), h3 = "function" == typeof t4.converter ? { fromAttribute: t4.converter } : void 0 !== t4.converter?.fromAttribute ? t4.converter : u;
-        this._$Em = e4, this[e4] = h3.fromAttribute(s4, t4.type) ?? this._$Ej?.get(e4) ?? null, this._$Em = null;
+        const t4 = i5.getPropertyOptions(e4), h3 = "function" == typeof t4.converter ? { fromAttribute: t4.converter } : void 0 !== ((_a6 = t4.converter) == null ? void 0 : _a6.fromAttribute) ? t4.converter : u;
+        this._$Em = e4, this[e4] = (_d = (_c = h3.fromAttribute(s4, t4.type)) != null ? _c : (_b2 = this._$Ej) == null ? void 0 : _b2.get(e4)) != null ? _d : null, this._$Em = null;
       }
     }
     requestUpdate(t3, s4, i5) {
+      var _a6, _b2;
       if (void 0 !== t3) {
         const e4 = this.constructor, h3 = this[t3];
-        if (i5 ??= e4.getPropertyOptions(t3), !((i5.hasChanged ?? f)(h3, s4) || i5.useDefault && i5.reflect && h3 === this._$Ej?.get(t3) && !this.hasAttribute(e4._$Eu(t3, i5)))) return;
+        if (i5 != null ? i5 : i5 = e4.getPropertyOptions(t3), !(((_a6 = i5.hasChanged) != null ? _a6 : f)(h3, s4) || i5.useDefault && i5.reflect && h3 === ((_b2 = this._$Ej) == null ? void 0 : _b2.get(t3)) && !this.hasAttribute(e4._$Eu(t3, i5)))) return;
         this.C(t3, s4, i5);
       }
       false === this.isUpdatePending && (this._$ES = this._$EP());
     }
     C(t3, s4, { useDefault: i5, reflect: e4, wrapped: h3 }, r4) {
-      i5 && !(this._$Ej ??= /* @__PURE__ */ new Map()).has(t3) && (this._$Ej.set(t3, r4 ?? s4 ?? this[t3]), true !== h3 || void 0 !== r4) || (this._$AL.has(t3) || (this.hasUpdated || i5 || (s4 = void 0), this._$AL.set(t3, s4)), true === e4 && this._$Em !== t3 && (this._$Eq ??= /* @__PURE__ */ new Set()).add(t3));
+      var _a6, _b2, _c;
+      i5 && !((_a6 = this._$Ej) != null ? _a6 : this._$Ej = /* @__PURE__ */ new Map()).has(t3) && (this._$Ej.set(t3, (_b2 = r4 != null ? r4 : s4) != null ? _b2 : this[t3]), true !== h3 || void 0 !== r4) || (this._$AL.has(t3) || (this.hasUpdated || i5 || (s4 = void 0), this._$AL.set(t3, s4)), true === e4 && this._$Em !== t3 && ((_c = this._$Eq) != null ? _c : this._$Eq = /* @__PURE__ */ new Set()).add(t3));
     }
-    async _$EP() {
-      this.isUpdatePending = true;
-      try {
-        await this._$ES;
-      } catch (t4) {
-        Promise.reject(t4);
-      }
-      const t3 = this.scheduleUpdate();
-      return null != t3 && await t3, !this.isUpdatePending;
+    _$EP() {
+      return __async(this, null, function* () {
+        this.isUpdatePending = true;
+        try {
+          yield this._$ES;
+        } catch (t4) {
+          Promise.reject(t4);
+        }
+        const t3 = this.scheduleUpdate();
+        return null != t3 && (yield t3), !this.isUpdatePending;
+      });
     }
     scheduleUpdate() {
       return this.performUpdate();
     }
     performUpdate() {
+      var _a6, _b2;
       if (!this.isUpdatePending) return;
       if (!this.hasUpdated) {
-        if (this.renderRoot ??= this.createRenderRoot(), this._$Ep) {
+        if ((_a6 = this.renderRoot) != null ? _a6 : this.renderRoot = this.createRenderRoot(), this._$Ep) {
           for (const [t5, s5] of this._$Ep) this[t5] = s5;
           this._$Ep = void 0;
         }
@@ -231,7 +294,10 @@
       let t3 = false;
       const s4 = this._$AL;
       try {
-        t3 = this.shouldUpdate(s4), t3 ? (this.willUpdate(s4), this._$EO?.forEach((t4) => t4.hostUpdate?.()), this.update(s4)) : this._$EM();
+        t3 = this.shouldUpdate(s4), t3 ? (this.willUpdate(s4), (_b2 = this._$EO) == null ? void 0 : _b2.forEach((t4) => {
+          var _a7;
+          return (_a7 = t4.hostUpdate) == null ? void 0 : _a7.call(t4);
+        }), this.update(s4)) : this._$EM();
       } catch (s5) {
         throw t3 = false, this._$EM(), s5;
       }
@@ -240,7 +306,11 @@
     willUpdate(t3) {
     }
     _$AE(t3) {
-      this._$EO?.forEach((t4) => t4.hostUpdated?.()), this.hasUpdated || (this.hasUpdated = true, this.firstUpdated(t3)), this.updated(t3);
+      var _a6;
+      (_a6 = this._$EO) == null ? void 0 : _a6.forEach((t4) => {
+        var _a7;
+        return (_a7 = t4.hostUpdated) == null ? void 0 : _a7.call(t4);
+      }), this.hasUpdated || (this.hasUpdated = true, this.firstUpdated(t3)), this.updated(t3);
     }
     _$EM() {
       this._$AL = /* @__PURE__ */ new Map(), this.isUpdatePending = false;
@@ -255,14 +325,15 @@
       return true;
     }
     update(t3) {
-      this._$Eq &&= this._$Eq.forEach((t4) => this._$ET(t4, this[t4])), this._$EM();
+      this._$Eq && (this._$Eq = this._$Eq.forEach((t4) => this._$ET(t4, this[t4]))), this._$EM();
     }
     updated(t3) {
     }
     firstUpdated(t3) {
     }
   };
-  y.elementStyles = [], y.shadowRootOptions = { mode: "open" }, y[d("elementProperties")] = /* @__PURE__ */ new Map(), y[d("finalized")] = /* @__PURE__ */ new Map(), p?.({ ReactiveElement: y }), (a.reactiveElementVersions ??= []).push("2.1.0");
+  var _a2;
+  y.elementStyles = [], y.shadowRootOptions = { mode: "open" }, y[d("elementProperties")] = /* @__PURE__ */ new Map(), y[d("finalized")] = /* @__PURE__ */ new Map(), p == null ? void 0 : p({ ReactiveElement: y }), ((_a2 = a.reactiveElementVersions) != null ? _a2 : a.reactiveElementVersions = []).push("2.1.0");
 
   // node_modules/lit-html/lit-html.js
   var t2 = globalThis;
@@ -276,7 +347,7 @@
   var l2 = () => r3.createComment("");
   var c3 = (t3) => null === t3 || "object" != typeof t3 && "function" != typeof t3;
   var a2 = Array.isArray;
-  var u2 = (t3) => a2(t3) || "function" == typeof t3?.[Symbol.iterator];
+  var u2 = (t3) => a2(t3) || "function" == typeof (t3 == null ? void 0 : t3[Symbol.iterator]);
   var d2 = "[ 	\n\f\r]";
   var f2 = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g;
   var v = /-->/g;
@@ -304,7 +375,7 @@
     for (let i6 = 0; i6 < s4; i6++) {
       const s5 = t3[i6];
       let a3, u3, d3 = -1, y3 = 0;
-      for (; y3 < s5.length && (c4.lastIndex = y3, u3 = c4.exec(s5), null !== u3); ) y3 = c4.lastIndex, c4 === f2 ? "!--" === u3[1] ? c4 = v : void 0 !== u3[1] ? c4 = _ : void 0 !== u3[2] ? ($.test(u3[2]) && (r4 = RegExp("</" + u3[2], "g")), c4 = m) : void 0 !== u3[3] && (c4 = m) : c4 === m ? ">" === u3[0] ? (c4 = r4 ?? f2, d3 = -1) : void 0 === u3[1] ? d3 = -2 : (d3 = c4.lastIndex - u3[2].length, a3 = u3[1], c4 = void 0 === u3[3] ? m : '"' === u3[3] ? g : p2) : c4 === g || c4 === p2 ? c4 = m : c4 === v || c4 === _ ? c4 = f2 : (c4 = m, r4 = void 0);
+      for (; y3 < s5.length && (c4.lastIndex = y3, u3 = c4.exec(s5), null !== u3); ) y3 = c4.lastIndex, c4 === f2 ? "!--" === u3[1] ? c4 = v : void 0 !== u3[1] ? c4 = _ : void 0 !== u3[2] ? ($.test(u3[2]) && (r4 = RegExp("</" + u3[2], "g")), c4 = m) : void 0 !== u3[3] && (c4 = m) : c4 === m ? ">" === u3[0] ? (c4 = r4 != null ? r4 : f2, d3 = -1) : void 0 === u3[1] ? d3 = -2 : (d3 = c4.lastIndex - u3[2].length, a3 = u3[1], c4 = void 0 === u3[3] ? m : '"' === u3[3] ? g : p2) : c4 === g || c4 === p2 ? c4 = m : c4 === v || c4 === _ ? c4 = f2 : (c4 = m, r4 = void 0);
       const x2 = c4 === m && t3[i6 + 1].startsWith("/>") ? " " : "";
       l3 += c4 === f2 ? s5 + n3 : d3 >= 0 ? (o5.push(a3), s5.slice(0, d3) + e3 + s5.slice(d3) + h2 + x2) : s5 + h2 + (-2 === d3 ? i6 : x2);
     }
@@ -348,10 +419,11 @@
     }
   };
   function S2(t3, i5, s4 = t3, e4) {
+    var _a6, _b2, _c;
     if (i5 === T) return i5;
-    let h3 = void 0 !== e4 ? s4._$Co?.[e4] : s4._$Cl;
+    let h3 = void 0 !== e4 ? (_a6 = s4._$Co) == null ? void 0 : _a6[e4] : s4._$Cl;
     const o5 = c3(i5) ? void 0 : i5._$litDirective$;
-    return h3?.constructor !== o5 && (h3?._$AO?.(false), void 0 === o5 ? h3 = void 0 : (h3 = new o5(t3), h3._$AT(t3, s4, e4)), void 0 !== e4 ? (s4._$Co ??= [])[e4] = h3 : s4._$Cl = h3), void 0 !== h3 && (i5 = S2(t3, h3._$AS(t3, i5.values), h3, e4)), i5;
+    return (h3 == null ? void 0 : h3.constructor) !== o5 && ((_b2 = h3 == null ? void 0 : h3._$AO) == null ? void 0 : _b2.call(h3, false), void 0 === o5 ? h3 = void 0 : (h3 = new o5(t3), h3._$AT(t3, s4, e4)), void 0 !== e4 ? ((_c = s4._$Co) != null ? _c : s4._$Co = [])[e4] = h3 : s4._$Cl = h3), void 0 !== h3 && (i5 = S2(t3, h3._$AS(t3, i5.values), h3, e4)), i5;
   }
   var M = class {
     constructor(t3, i5) {
@@ -364,7 +436,8 @@
       return this._$AM._$AU;
     }
     u(t3) {
-      const { el: { content: i5 }, parts: s4 } = this._$AD, e4 = (t3?.creationScope ?? r3).importNode(i5, true);
+      var _a6;
+      const { el: { content: i5 }, parts: s4 } = this._$AD, e4 = ((_a6 = t3 == null ? void 0 : t3.creationScope) != null ? _a6 : r3).importNode(i5, true);
       C.currentNode = e4;
       let h3 = C.nextNode(), o5 = 0, n4 = 0, l3 = s4[0];
       for (; void 0 !== l3; ) {
@@ -372,7 +445,7 @@
           let i6;
           2 === l3.type ? i6 = new R(h3, h3.nextSibling, this, t3) : 1 === l3.type ? i6 = new l3.ctor(h3, l3.name, l3.strings, this, t3) : 6 === l3.type && (i6 = new z(h3, this, t3)), this._$AV.push(i6), l3 = s4[++n4];
         }
-        o5 !== l3?.index && (h3 = C.nextNode(), o5++);
+        o5 !== (l3 == null ? void 0 : l3.index) && (h3 = C.nextNode(), o5++);
       }
       return C.currentNode = r3, e4;
     }
@@ -383,15 +456,17 @@
   };
   var R = class _R {
     get _$AU() {
-      return this._$AM?._$AU ?? this._$Cv;
+      var _a6, _b2;
+      return (_b2 = (_a6 = this._$AM) == null ? void 0 : _a6._$AU) != null ? _b2 : this._$Cv;
     }
     constructor(t3, i5, s4, e4) {
-      this.type = 2, this._$AH = E, this._$AN = void 0, this._$AA = t3, this._$AB = i5, this._$AM = s4, this.options = e4, this._$Cv = e4?.isConnected ?? true;
+      var _a6;
+      this.type = 2, this._$AH = E, this._$AN = void 0, this._$AA = t3, this._$AB = i5, this._$AM = s4, this.options = e4, this._$Cv = (_a6 = e4 == null ? void 0 : e4.isConnected) != null ? _a6 : true;
     }
     get parentNode() {
       let t3 = this._$AA.parentNode;
       const i5 = this._$AM;
-      return void 0 !== i5 && 11 === t3?.nodeType && (t3 = i5.parentNode), t3;
+      return void 0 !== i5 && 11 === (t3 == null ? void 0 : t3.nodeType) && (t3 = i5.parentNode), t3;
     }
     get startNode() {
       return this._$AA;
@@ -412,8 +487,9 @@
       this._$AH !== E && c3(this._$AH) ? this._$AA.nextSibling.data = t3 : this.T(r3.createTextNode(t3)), this._$AH = t3;
     }
     $(t3) {
+      var _a6;
       const { values: i5, _$litType$: s4 } = t3, e4 = "number" == typeof s4 ? this._$AC(t3) : (void 0 === s4.el && (s4.el = N.createElement(P(s4.h, s4.h[0]), this.options)), s4);
-      if (this._$AH?._$AD === e4) this._$AH.p(i5);
+      if (((_a6 = this._$AH) == null ? void 0 : _a6._$AD) === e4) this._$AH.p(i5);
       else {
         const t4 = new M(e4, this), s5 = t4.u(this.options);
         t4.p(i5), this.T(s5), this._$AH = t4;
@@ -431,13 +507,15 @@
       e4 < i5.length && (this._$AR(s4 && s4._$AB.nextSibling, e4), i5.length = e4);
     }
     _$AR(t3 = this._$AA.nextSibling, i5) {
-      for (this._$AP?.(false, true, i5); t3 && t3 !== this._$AB; ) {
+      var _a6;
+      for ((_a6 = this._$AP) == null ? void 0 : _a6.call(this, false, true, i5); t3 && t3 !== this._$AB; ) {
         const i6 = t3.nextSibling;
         t3.remove(), t3 = i6;
       }
     }
     setConnected(t3) {
-      void 0 === this._$AM && (this._$Cv = t3, this._$AP?.(t3));
+      var _a6;
+      void 0 === this._$AM && (this._$Cv = t3, (_a6 = this._$AP) == null ? void 0 : _a6.call(this, t3));
     }
   };
   var k = class {
@@ -457,12 +535,12 @@
       else {
         const e5 = t3;
         let n4, r4;
-        for (t3 = h3[0], n4 = 0; n4 < h3.length - 1; n4++) r4 = S2(this, e5[s4 + n4], i5, n4), r4 === T && (r4 = this._$AH[n4]), o5 ||= !c3(r4) || r4 !== this._$AH[n4], r4 === E ? t3 = E : t3 !== E && (t3 += (r4 ?? "") + h3[n4 + 1]), this._$AH[n4] = r4;
+        for (t3 = h3[0], n4 = 0; n4 < h3.length - 1; n4++) r4 = S2(this, e5[s4 + n4], i5, n4), r4 === T && (r4 = this._$AH[n4]), o5 || (o5 = !c3(r4) || r4 !== this._$AH[n4]), r4 === E ? t3 = E : t3 !== E && (t3 += (r4 != null ? r4 : "") + h3[n4 + 1]), this._$AH[n4] = r4;
       }
       o5 && !e4 && this.j(t3);
     }
     j(t3) {
-      t3 === E ? this.element.removeAttribute(this.name) : this.element.setAttribute(this.name, t3 ?? "");
+      t3 === E ? this.element.removeAttribute(this.name) : this.element.setAttribute(this.name, t3 != null ? t3 : "");
     }
   };
   var H = class extends k {
@@ -486,12 +564,14 @@
       super(t3, i5, s4, e4, h3), this.type = 5;
     }
     _$AI(t3, i5 = this) {
-      if ((t3 = S2(this, t3, i5, 0) ?? E) === T) return;
+      var _a6;
+      if ((t3 = (_a6 = S2(this, t3, i5, 0)) != null ? _a6 : E) === T) return;
       const s4 = this._$AH, e4 = t3 === E && s4 !== E || t3.capture !== s4.capture || t3.once !== s4.once || t3.passive !== s4.passive, h3 = t3 !== E && (s4 === E || e4);
       e4 && this.element.removeEventListener(this.name, this, s4), h3 && this.element.addEventListener(this.name, this, t3), this._$AH = t3;
     }
     handleEvent(t3) {
-      "function" == typeof this._$AH ? this._$AH.call(this.options?.host ?? this.element, t3) : this._$AH.handleEvent(t3);
+      var _a6, _b2;
+      "function" == typeof this._$AH ? this._$AH.call((_b2 = (_a6 = this.options) == null ? void 0 : _a6.host) != null ? _b2 : this.element, t3) : this._$AH.handleEvent(t3);
     }
   };
   var z = class {
@@ -506,13 +586,15 @@
     }
   };
   var j = t2.litHtmlPolyfillSupport;
-  j?.(N, R), (t2.litHtmlVersions ??= []).push("3.3.0");
+  var _a3;
+  j == null ? void 0 : j(N, R), ((_a3 = t2.litHtmlVersions) != null ? _a3 : t2.litHtmlVersions = []).push("3.3.0");
   var B = (t3, i5, s4) => {
-    const e4 = s4?.renderBefore ?? i5;
+    var _a6, _b2;
+    const e4 = (_a6 = s4 == null ? void 0 : s4.renderBefore) != null ? _a6 : i5;
     let h3 = e4._$litPart$;
     if (void 0 === h3) {
-      const t4 = s4?.renderBefore ?? null;
-      e4._$litPart$ = h3 = new R(i5.insertBefore(l2(), t4), t4, void 0, s4 ?? {});
+      const t4 = (_b2 = s4 == null ? void 0 : s4.renderBefore) != null ? _b2 : null;
+      e4._$litPart$ = h3 = new R(i5.insertBefore(l2(), t4), t4, void 0, s4 != null ? s4 : {});
     }
     return h3._$AI(t3), h3;
   };
@@ -524,27 +606,32 @@
       super(...arguments), this.renderOptions = { host: this }, this._$Do = void 0;
     }
     createRenderRoot() {
+      var _a6, _b2;
       const t3 = super.createRenderRoot();
-      return this.renderOptions.renderBefore ??= t3.firstChild, t3;
+      return (_b2 = (_a6 = this.renderOptions).renderBefore) != null ? _b2 : _a6.renderBefore = t3.firstChild, t3;
     }
     update(t3) {
       const r4 = this.render();
       this.hasUpdated || (this.renderOptions.isConnected = this.isConnected), super.update(t3), this._$Do = B(r4, this.renderRoot, this.renderOptions);
     }
     connectedCallback() {
-      super.connectedCallback(), this._$Do?.setConnected(true);
+      var _a6;
+      super.connectedCallback(), (_a6 = this._$Do) == null ? void 0 : _a6.setConnected(true);
     }
     disconnectedCallback() {
-      super.disconnectedCallback(), this._$Do?.setConnected(false);
+      var _a6;
+      super.disconnectedCallback(), (_a6 = this._$Do) == null ? void 0 : _a6.setConnected(false);
     }
     render() {
       return T;
     }
   };
-  i4._$litElement$ = true, i4["finalized"] = true, s3.litElementHydrateSupport?.({ LitElement: i4 });
+  var _a4;
+  i4._$litElement$ = true, i4["finalized"] = true, (_a4 = s3.litElementHydrateSupport) == null ? void 0 : _a4.call(s3, { LitElement: i4 });
   var o4 = s3.litElementPolyfillSupport;
-  o4?.({ LitElement: i4 });
-  (s3.litElementVersions ??= []).push("4.2.0");
+  o4 == null ? void 0 : o4({ LitElement: i4 });
+  var _a5;
+  ((_a5 = s3.litElementVersions) != null ? _a5 : s3.litElementVersions = []).push("4.2.0");
 
   // src/motorcycle-weather-card-editor.js
   var MotorcycleWeatherCardEditor = class extends i4 {
@@ -563,10 +650,9 @@
         if (target.value === "") {
           delete this.config[target.configValue];
         } else {
-          this.config = {
-            ...this.config,
+          this.config = __spreadProps(__spreadValues({}, this.config), {
             [target.configValue]: target.checked !== void 0 && target.checked !== null ? target.checked : target.value
-          };
+          });
         }
       }
       this.dispatchEvent(
@@ -575,13 +661,11 @@
     }
     _locationChanged(ev, locationType, field) {
       const value = ev.target.value;
-      this.config = {
-        ...this.config,
-        [`${locationType}_location`]: {
-          ...this.config[`${locationType}_location`],
+      this.config = __spreadProps(__spreadValues({}, this.config), {
+        [`${locationType}_location`]: __spreadProps(__spreadValues({}, this.config[`${locationType}_location`]), {
           [field]: field === "name" ? value : parseFloat(value)
-        }
-      };
+        })
+      });
       this.dispatchEvent(
         new CustomEvent("config-changed", { detail: { config: this.config } })
       );
@@ -596,12 +680,12 @@
         <h3>Home Location</h3>
         <ha-textfield
           label="Name"
-          .value="${home_location?.name || ""}"
+          .value="${(home_location == null ? void 0 : home_location.name) || ""}"
           @change="${(ev) => this._locationChanged(ev, "home", "name")}"
         ></ha-textfield>
         <ha-selector-number
           label="Latitude"
-          .value="${home_location?.latitude || ""}"
+          .value="${(home_location == null ? void 0 : home_location.latitude) || ""}"
           .configValue="home_location.latitude"
           @change="${(ev) => this._locationChanged(ev, "home", "latitude")}"
           .hass="${this.hass}"
@@ -609,7 +693,7 @@
         ></ha-selector-number>
         <ha-selector-number
           label="Longitude"
-          .value="${home_location?.longitude || ""}"
+          .value="${(home_location == null ? void 0 : home_location.longitude) || ""}"
           .configValue="home_location.longitude"
           @change="${(ev) => this._locationChanged(ev, "home", "longitude")}"
           .hass="${this.hass}"
@@ -619,12 +703,12 @@
         <h3>Work Location</h3>
         <ha-textfield
           label="Name"
-          .value="${work_location?.name || ""}"
+          .value="${(work_location == null ? void 0 : work_location.name) || ""}"
           @change="${(ev) => this._locationChanged(ev, "work", "name")}"
         ></ha-textfield>
         <ha-selector-number
           label="Latitude"
-          .value="${work_location?.latitude || ""}"
+          .value="${(work_location == null ? void 0 : work_location.latitude) || ""}"
           .configValue="work_location.latitude"
           @change="${(ev) => this._locationChanged(ev, "work", "latitude")}"
           .hass="${this.hass}"
@@ -632,7 +716,7 @@
         ></ha-selector-number>
         <ha-selector-number
           label="Longitude"
-          .value="${work_location?.longitude || ""}"
+          .value="${(work_location == null ? void 0 : work_location.longitude) || ""}"
           .configValue="work_location.longitude"
           @change="${(ev) => this._locationChanged(ev, "work", "longitude")}"
           .hass="${this.hass}"
@@ -705,7 +789,7 @@
       };
     }
     setConfig(config) {
-      this.config = {
+      this.config = __spreadValues({
         home_location: {
           name: "Stellendam",
           latitude: 51.77,
@@ -719,9 +803,8 @@
         temperature_threshold: 15,
         rain_threshold: 20,
         travel_start_hour: 7,
-        travel_end_hour: 19,
-        ...config
-      };
+        travel_end_hour: 19
+      }, config);
     }
     set hass(hass) {
       this._hass = hass;
@@ -729,22 +812,24 @@
         this.fetchWeather();
       }
     }
-    async fetchWeather() {
-      const home = this.config.home_location;
-      const work = this.config.work_location;
-      const homeUrl = `https://api.open-meteo.com/v1/forecast?latitude=${home.latitude}&longitude=${home.longitude}&hourly=temperature_2m,precipitation_probability&daily=weathercode,temperature_2m_max`;
-      const workUrl = `https://api.open-meteo.com/v1/forecast?latitude=${work.latitude}&longitude=${work.longitude}&hourly=temperature_2m,precipitation_probability`;
-      try {
-        const [homeResponse, workResponse] = await Promise.all([
-          fetch(homeUrl),
-          fetch(workUrl)
-        ]);
-        const homeData = await homeResponse.json();
-        const workData = await workResponse.json();
-        this.weather = this.evaluateWeather(homeData, workData);
-      } catch (error) {
-        console.error("Error fetching weather data:", error);
-      }
+    fetchWeather() {
+      return __async(this, null, function* () {
+        const home = this.config.home_location;
+        const work = this.config.work_location;
+        const homeUrl = `https://api.open-meteo.com/v1/forecast?latitude=${home.latitude}&longitude=${home.longitude}&hourly=temperature_2m,precipitation_probability&daily=weathercode,temperature_2m_max`;
+        const workUrl = `https://api.open-meteo.com/v1/forecast?latitude=${work.latitude}&longitude=${work.longitude}&hourly=temperature_2m,precipitation_probability`;
+        try {
+          const [homeResponse, workResponse] = yield Promise.all([
+            fetch(homeUrl),
+            fetch(workUrl)
+          ]);
+          const homeData = yield homeResponse.json();
+          const workData = yield workResponse.json();
+          this.weather = this.evaluateWeather(homeData, workData);
+        } catch (error) {
+          console.error("Error fetching weather data:", error);
+        }
+      });
     }
     evaluateWeather(homeData, workData) {
       const dailyWeather = [];
