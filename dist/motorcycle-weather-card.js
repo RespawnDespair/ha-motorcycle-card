@@ -579,7 +579,7 @@
     async fetchWeather() {
       const home = this._config.home_location;
       const work = this._config.work_location;
-      const homeUrl = `https://api.open-meteo.com/v1/forecast?latitude=${home.latitude}&longitude=${home.longitude}&hourly=temperature_2m,precipitation_probability&daily=weathercode`;
+      const homeUrl = `https://api.open-meteo.com/v1/forecast?latitude=${home.latitude}&longitude=${home.longitude}&hourly=temperature_2m,precipitation_probability&daily=weathercode,temperature_2m_max`;
       const workUrl = `https://api.open-meteo.com/v1/forecast?latitude=${work.latitude}&longitude=${work.longitude}&hourly=temperature_2m,precipitation_probability`;
       try {
         const [homeResponse, workResponse] = await Promise.all([
@@ -599,11 +599,14 @@
         const day = {
           date: /* @__PURE__ */ new Date(),
           weatherIcon: this.getWeatherIcon(homeData.daily.weathercode[i5]),
-          home: { go: true, reason: "" },
-          work: { go: true, reason: "" }
+          maxTemp: homeData.daily.temperature_2m_max[i5],
+          canRide: true,
+          reason: ""
         };
         day.date.setDate(day.date.getDate() + i5);
         const travelHours = Array.from({ length: 13 }, (_2, j2) => j2 + 7);
+        let homeGo = true;
+        let workGo = true;
         for (const location of ["home", "work"]) {
           const data = location === "home" ? homeData : workData;
           for (const hour of travelHours) {
@@ -611,16 +614,20 @@
             const temp = data.hourly.temperature_2m[index];
             const rain = data.hourly.precipitation_probability[index];
             if (temp <= 15) {
-              day[location].go = false;
-              day[location].reason = "Too cold";
+              if (location === "home") homeGo = false;
+              else workGo = false;
               break;
             }
             if (rain > 20) {
-              day[location].go = false;
-              day[location].reason = "Rain";
+              if (location === "home") homeGo = false;
+              else workGo = false;
               break;
             }
           }
+        }
+        if (!homeGo || !workGo) {
+          day.canRide = false;
+          day.reason = "Conditions not met";
         }
         dailyWeather.push(day);
       }
@@ -657,25 +664,15 @@
       <ha-card header="Motorcycle Weather">
         <div class="card-content">
           <div class="calendar">
-            <div class="day-labels">
-              <div class="label"></div>
-              <div class="label"></div>
-              <div class="label">${this._config.home_location.name}</div>
-              <div class="label">${this._config.work_location.name}</div>
-            </div>
-            ${this.weather.map((day, index) => x`
+            ${this.weather.map((day) => x`
               <div class="day">
-                <div class="date">${day.date.toLocaleDateString(void 0, { weekday: "short" })}</div>
+                <div class="date">${day.date.toLocaleDateString(void 0, { weekday: "short", month: "short", day: "numeric" })}</div>
                 <div class="icon-container">
                     <ha-icon icon="${day.weatherIcon}"></ha-icon>
                 </div>
-                <div class="location">
-                  ${index === 0 ? x`<span>Home</span>` : x``}
-                  <span class="icon">${day.home.go ? "\u2705" : "\u274C"}</span>
-                </div>
-                <div class="location">
-                  ${index === 0 ? x`<span>Work</span>` : x``}
-                  <span class="icon">${day.work.go ? "\u2705" : "\u274C"}</span>
+                <div class="temp">${Math.round(day.maxTemp)}°C</div>
+                <div class="rideable-status">
+                  <span class="icon">${day.canRide ? "\u2705" : "\u274C"}</span>
                 </div>
               </div>
             `)}
@@ -688,17 +685,8 @@
       return i`
       .calendar {
         display: grid;
-        grid-template-columns: 0.5fr repeat(7, 1fr);
+        grid-template-columns: repeat(7, 1fr);
         gap: 8px;
-      }
-      .day-labels {
-        display: contents;
-      }
-      .day-labels .label {
-        font-weight: bold;
-        text-align: center;
-        padding: 8px 0;
-        border-bottom: 1px solid var(--primary-text-color);
       }
       .day {
         display: flex;
@@ -712,31 +700,27 @@
       }
       .date {
         font-weight: bold;
-        margin-bottom: 8px;
+        margin-bottom: 4px;
+        font-size: 0.9em;
       }
       .icon-container {
-        margin-bottom: 8px;
+        margin-bottom: 4px;
       }
       ha-icon {
         --mdc-icon-size: 32px;
       }
-      .location {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        width: 100%;
-        margin-top: 4px;
+      .temp {
+        font-size: 1.1em;
+        font-weight: bold;
+        margin-bottom: 4px;
       }
-      .location span {
-        font-size: 12px;
-      }
-      .icon {
-        font-size: 18px;
+      .rideable-status .icon {
+        font-size: 24px;
       }
 
       @media (max-width: 600px) {
         .calendar {
-          grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+          grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
         }
       }
     `;
