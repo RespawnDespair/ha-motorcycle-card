@@ -8,6 +8,7 @@ A Lovelace card for Home Assistant that shows a 7-day forecast and determines if
 *   **Go/No-Go Indicator:** A clear icon (✅/❌) tells you if the weather is suitable for riding.
 *   **Configurable Locations:** Set your home and work locations in the card configuration.
 *   **Customizable Criteria:** The card checks for temperature and rain probability during your commuting hours.
+*   **Visual Configuration Editor:** Easily configure the card directly from the Home Assistant UI.
 
 ## Installation
 
@@ -24,7 +25,7 @@ A Lovelace card for Home Assistant that shows a 7-day forecast and determines if
     *   Go to your dashboard, click the three dots, and select "Edit Dashboard".
     *   Click the "+" button to add a new card.
     *   Search for "Motorcycle Weather Card".
-    *   Configure the card as described below.
+    *   Configure the card using the visual editor or YAML as described below.
 
 ## Troubleshooting
 
@@ -38,6 +39,21 @@ If you see the error `Custom element not found: motorcycle-weather-card`, try th
 
 ## Configuration
 
+The Motorcycle Weather Card can be configured using the visual editor in Home Assistant or directly via YAML.
+
+### Visual Editor
+
+After adding the card to your dashboard, click "Show Code Editor" (if in YAML mode) or the "Edit" icon (if in UI mode) and then select the "Motorcycle Weather Card". You will see fields to configure:
+
+*   **Home Location:** Name, Latitude, Longitude
+*   **Work Location:** Name, Latitude, Longitude
+*   **Minimum Temperature (°C):** The lowest acceptable temperature for riding.
+*   **Maximum Rain Probability (%):** The highest acceptable probability of rain for riding.
+*   **Travel Start Hour (0-23):** The beginning of your commuting window.
+*   **Travel End Hour (0-23):** The end of your commuting window.
+
+### YAML Configuration
+
 ```yaml
 type: custom:motorcycle-weather-card
 home_location:
@@ -48,13 +64,17 @@ work_location:
   name: Middelharnis
   latitude: 51.75
   longitude: 4.17
+temperature_threshold: 15
+rain_threshold: 20
+travel_start_hour: 7
+travel_end_hour: 19
 ```
 
 ## Travel Criteria
 
-The card will show a "go" icon (✅) if the following conditions are met for the entire travel period (07:00 - 19:00):
+The card will show a "go" icon (✅) if the following conditions are met for the entire travel period (configured start to end hour) for *both* your home and work locations:
 
-*   **Temperature:** Stays above 15°C.
-*   **Precipitation:** The probability of rain is less than 20%.
+*   **Temperature:** Stays above the configured minimum temperature.
+*   **Precipitation:** The probability of rain is below the configured maximum rain probability.
 
-If either of these conditions is not met, the card will show a "no-go" icon (❌) and the reason.
+If either of these conditions is not met for either location, the card will show a "no-go" icon (❌).

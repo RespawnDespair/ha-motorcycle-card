@@ -1,17 +1,24 @@
-
 import { LitElement, html, css } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
 
-class MotorcycleWeatherCard extends LitElement {
+// Import the editor
+import './motorcycle-weather-card-editor.js';
+
+@customElement('motorcycle-weather-card')
+export class MotorcycleWeatherCard extends LitElement {
+  @property({ attribute: false }) hass;
+  @property({ type: Object }) config;
+
   static get properties() {
     return {
-      _hass: { state: true },
-      _config: { state: true },
+      hass: { type: Object },
+      config: { type: Object },
       weather: { state: true },
     };
   }
 
   setConfig(config) {
-    this._config = {
+    this.config = {
       home_location: {
         name: 'Stellendam',
         latitude: 51.77,
@@ -22,20 +29,24 @@ class MotorcycleWeatherCard extends LitElement {
         latitude: 51.75,
         longitude: 4.17,
       },
+      temperature_threshold: 15,
+      rain_threshold: 20,
+      travel_start_hour: 7,
+      travel_end_hour: 19,
       ...config,
     };
   }
 
   set hass(hass) {
-    this._hass = hass;
+    this.hass = hass;
     if (!this.weather) {
       this.fetchWeather();
     }
   }
 
   async fetchWeather() {
-    const home = this._config.home_location;
-    const work = this._config.work_location;
+    const home = this.config.home_location;
+    const work = this.config.work_location;
 
     const homeUrl = `https://api.open-meteo.com/v1/forecast?latitude=${home.latitude}&longitude=${home.longitude}&hourly=temperature_2m,precipitation_probability&daily=weathercode,temperature_2m_max`;
     const workUrl = `https://api.open-meteo.com/v1/forecast?latitude=${work.latitude}&longitude=${work.longitude}&hourly=temperature_2m,precipitation_probability`;
@@ -57,6 +68,8 @@ class MotorcycleWeatherCard extends LitElement {
 
   evaluateWeather(homeData, workData) {
     const dailyWeather = [];
+    const { temperature_threshold, rain_threshold, travel_start_hour, travel_end_hour } = this.config;
+
     for (let i = 0; i < 7; i++) {
       const day = {
         date: new Date(),
@@ -67,7 +80,10 @@ class MotorcycleWeatherCard extends LitElement {
       };
       day.date.setDate(day.date.getDate() + i);
 
-      const travelHours = Array.from({ length: 13 }, (_, j) => j + 7);
+      const travelHours = [];
+      for (let h = travel_start_hour; h <= travel_end_hour; h++) {
+        travelHours.push(h);
+      }
 
       let homeGo = true;
       let workGo = true;
@@ -79,12 +95,12 @@ class MotorcycleWeatherCard extends LitElement {
           const temp = data.hourly.temperature_2m[index];
           const rain = data.hourly.precipitation_probability[index];
 
-          if (temp <= 15) {
+          if (temp <= temperature_threshold) {
             if (location === 'home') homeGo = false;
             else workGo = false;
             break;
           }
-          if (rain > 20) {
+          if (rain > rain_threshold) {
             if (location === 'home') homeGo = false;
             else workGo = false;
             break;
@@ -197,6 +213,27 @@ class MotorcycleWeatherCard extends LitElement {
       }
     `;
   }
-}
 
-customElements.define('motorcycle-weather-card', MotorcycleWeatherCard);
+  static getConfigElement() {
+    return document.createElement('motorcycle-weather-card-editor');
+  }
+
+  static getStubConfig() {
+    return {
+      home_location: {
+        name: 'Stellendam',
+        latitude: 51.77,
+        longitude: 4.04,
+      },
+      work_location: {
+        name: 'Middelharnis',
+        latitude: 51.75,
+        longitude: 4.17,
+      },
+      temperature_threshold: 15,
+      rain_threshold: 20,
+      travel_start_hour: 7,
+      travel_end_hour: 19,
+    };
+  }
+}
