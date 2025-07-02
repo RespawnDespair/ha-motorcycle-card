@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "build": "esbuild src/motorcycle-weather-card.js --bundle --outfile=dist/motorcycle-weather-card.js"
+    "build": "esbuild src/motorcycle-weather-card.js --bundle --outfile=dist/motorcycle-weather-card.js --target=es2020 --loader:.js=ts"
   },
   "dependencies": {
     "esbuild": "^0.25.5",
