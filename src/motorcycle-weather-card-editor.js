@@ -8,21 +8,23 @@ export class MotorcycleWeatherCardEditor extends LitElement {
   setConfig(config) {
     console.log('Editor setConfig called with:', config);
     this._config = {
+      ...config,
       home_location: {
         name: '',
         latitude: 0,
         longitude: 0,
+        ...(config.home_location || {}),
       },
       work_location: {
         name: '',
         latitude: 0,
         longitude: 0,
+        ...(config.work_location || {}),
       },
-      temperature_threshold: 15,
-      rain_threshold: 20,
-      travel_start_hour: 7,
-      travel_end_hour: 19,
-      ...config,
+      temperature_threshold: config.temperature_threshold ?? 15,
+      rain_threshold: config.rain_threshold ?? 20,
+      travel_start_hour: config.travel_start_hour ?? 7,
+      travel_end_hour: config.travel_end_hour ?? 19,
     };
   }
 

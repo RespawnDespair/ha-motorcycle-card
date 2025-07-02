@@ -639,23 +639,24 @@
       return { hass: { type: Object }, _config: { type: Object } };
     }
     setConfig(config) {
+      var _a6, _b2, _c, _d;
       console.log("Editor setConfig called with:", config);
-      this._config = __spreadValues({
-        home_location: {
+      this._config = __spreadProps(__spreadValues({}, config), {
+        home_location: __spreadValues({
           name: "",
           latitude: 0,
           longitude: 0
-        },
-        work_location: {
+        }, config.home_location || {}),
+        work_location: __spreadValues({
           name: "",
           latitude: 0,
           longitude: 0
-        },
-        temperature_threshold: 15,
-        rain_threshold: 20,
-        travel_start_hour: 7,
-        travel_end_hour: 19
-      }, config);
+        }, config.work_location || {}),
+        temperature_threshold: (_a6 = config.temperature_threshold) != null ? _a6 : 15,
+        rain_threshold: (_b2 = config.rain_threshold) != null ? _b2 : 20,
+        travel_start_hour: (_c = config.travel_start_hour) != null ? _c : 7,
+        travel_end_hour: (_d = config.travel_end_hour) != null ? _d : 19
+      });
     }
     _valueChanged(ev) {
       if (!this._config || !this.hass) {
