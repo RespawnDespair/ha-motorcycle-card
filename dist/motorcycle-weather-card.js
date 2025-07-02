@@ -737,13 +737,7 @@
   var MotorcycleWeatherCard = @t3("motorcycle-weather-card") class extends i4 {
     @n4({ attribute: false }) hass;
     @n4({ type: Object }) config;
-    static get properties() {
-      return {
-        hass: { type: Object },
-        config: { type: Object },
-        weather: { state: true }
-      };
-    }
+    @n4({ state: true }) weather;
     setConfig(config) {
       this.config = {
         home_location: {
@@ -944,6 +938,7 @@
       };
     }
   };
+  customElements.define("motorcycle-weather-card", MotorcycleWeatherCard);
 })();
 /*! Bundled license information:
 

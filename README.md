@@ -29,11 +29,11 @@ A Lovelace card for Home Assistant that shows a 7-day forecast and determines if
 
 ## Troubleshooting
 
-If you see the error `Custom element not found: motorcycle-weather-card`, try the following steps in order:
+If you encounter issues like the card not appearing in the "Add Card" picker, or the visual editor not being available, try the following steps in order:
 
-1.  **Force Refresh:** Press `Ctrl + F5` or `Cmd + Shift + R` to force a hard refresh of your browser.
-2.  **Clear Cache:** Clear your browser's cache and cookies.
-3.  **Restart Home Assistant:** A full restart of the Home Assistant server can often resolve loading issues.
+1.  **Force Refresh:** Press `Ctrl + F5` (Windows/Linux) or `Cmd + Shift + R` (Mac) to force a hard refresh of your browser. This bypasses the browser cache.
+2.  **Clear Home Assistant Frontend Cache:** In Home Assistant, go to **Developer Tools > Services**, search for "frontend.reload_themes", and call the service. This can sometimes help with resource loading.
+3.  **Restart Home Assistant:** A full restart of the Home Assistant server ensures all components and resources are reloaded.
 4.  **Check Lovelace Resources:** HACS should automatically add the card to your Lovelace resources. You can check this by navigating to **Settings > Dashboards** in Home Assistant, clicking the three-dots menu in the top right, and selecting **Resources**. You should see an entry with a URL like `/hacsfiles/motorcycle-weather-card/motorcycle-weather-card.js`.
     *   If this entry is missing, you can add it manually by clicking **Add Resource**, entering the URL, and selecting **JavaScript Module** as the resource type.
 
