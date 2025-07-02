@@ -657,18 +657,24 @@
       <ha-card header="Motorcycle Weather">
         <div class="card-content">
           <div class="calendar">
-            ${this.weather.map((day) => x`
+            <div class="day-labels">
+              <div class="label"></div>
+              <div class="label"></div>
+              <div class="label">${this._config.home_location.name}</div>
+              <div class="label">${this._config.work_location.name}</div>
+            </div>
+            ${this.weather.map((day, index) => x`
               <div class="day">
                 <div class="date">${day.date.toLocaleDateString(void 0, { weekday: "short" })}</div>
                 <div class="icon-container">
                     <ha-icon icon="${day.weatherIcon}"></ha-icon>
                 </div>
                 <div class="location">
-                  <span>${this._config.home_location.name}</span>
+                  ${index === 0 ? x`<span>Home</span>` : x``}
                   <span class="icon">${day.home.go ? "\u2705" : "\u274C"}</span>
                 </div>
                 <div class="location">
-                  <span>${this._config.work_location.name}</span>
+                  ${index === 0 ? x`<span>Work</span>` : x``}
                   <span class="icon">${day.work.go ? "\u2705" : "\u274C"}</span>
                 </div>
               </div>
@@ -682,8 +688,17 @@
       return i`
       .calendar {
         display: grid;
-        grid-template-columns: repeat(7, 1fr);
+        grid-template-columns: 0.5fr repeat(7, 1fr);
         gap: 8px;
+      }
+      .day-labels {
+        display: contents;
+      }
+      .day-labels .label {
+        font-weight: bold;
+        text-align: center;
+        padding: 8px 0;
+        border-bottom: 1px solid var(--primary-text-color);
       }
       .day {
         display: flex;

@@ -1,4 +1,3 @@
-
 import { LitElement, html, css } from 'lit';
 
 class MotorcycleWeatherCard extends LitElement {
@@ -125,18 +124,24 @@ class MotorcycleWeatherCard extends LitElement {
       <ha-card header="Motorcycle Weather">
         <div class="card-content">
           <div class="calendar">
-            ${this.weather.map((day) => html`
+            <div class="day-labels">
+              <div class="label"></div>
+              <div class="label"></div>
+              <div class="label">${this._config.home_location.name}</div>
+              <div class="label">${this._config.work_location.name}</div>
+            </div>
+            ${this.weather.map((day, index) => html`
               <div class="day">
                 <div class="date">${day.date.toLocaleDateString(undefined, { weekday: 'short' })}</div>
                 <div class="icon-container">
                     <ha-icon icon="${day.weatherIcon}"></ha-icon>
                 </div>
                 <div class="location">
-                  <span>${this._config.home_location.name}</span>
+                  ${index === 0 ? html`<span>Home</span>` : html``}
                   <span class="icon">${day.home.go ? '✅' : '❌'}</span>
                 </div>
                 <div class="location">
-                  <span>${this._config.work_location.name}</span>
+                  ${index === 0 ? html`<span>Work</span>` : html``}
                   <span class="icon">${day.work.go ? '✅' : '❌'}</span>
                 </div>
               </div>
@@ -151,8 +156,17 @@ class MotorcycleWeatherCard extends LitElement {
     return css`
       .calendar {
         display: grid;
-        grid-template-columns: repeat(7, 1fr);
+        grid-template-columns: 0.5fr repeat(7, 1fr);
         gap: 8px;
+      }
+      .day-labels {
+        display: contents;
+      }
+      .day-labels .label {
+        font-weight: bold;
+        text-align: center;
+        padding: 8px 0;
+        border-bottom: 1px solid var(--primary-text-color);
       }
       .day {
         display: flex;
