@@ -82,7 +82,7 @@ export class MotorcycleWeatherCardEditor extends LitElement {
         ></ha-textfield>
         <ha-selector-number
           label="Latitude"
-          .value="${home_location?.latitude || ''}"
+          .value="${home_location?.latitude ?? 0}"
           .configValue="home_location.latitude"
           @change="${(ev) => this._locationChanged(ev, 'home', 'latitude')}"
           .hass="${this.hass}"
@@ -90,7 +90,7 @@ export class MotorcycleWeatherCardEditor extends LitElement {
         ></ha-selector-number>
         <ha-selector-number
           label="Longitude"
-          .value="${home_location?.longitude || ''}"
+          .value="${home_location?.longitude ?? 0}"
           .configValue="home_location.longitude"
           @change="${(ev) => this._locationChanged(ev, 'home', 'longitude')}"
           .hass="${this.hass}"
@@ -105,7 +105,7 @@ export class MotorcycleWeatherCardEditor extends LitElement {
         ></ha-textfield>
         <ha-selector-number
           label="Latitude"
-          .value="${work_location?.latitude || ''}"
+          .value="${work_location?.latitude ?? 0}"
           .configValue="work_location.latitude"
           @change="${(ev) => this._locationChanged(ev, 'work', 'latitude')}"
           .hass="${this.hass}"
@@ -113,7 +113,7 @@ export class MotorcycleWeatherCardEditor extends LitElement {
         ></ha-selector-number>
         <ha-selector-number
           label="Longitude"
-          .value="${work_location?.longitude || ''}"
+          .value="${work_location?.longitude ?? 0}"
           .configValue="work_location.longitude"
           @change="${(ev) => this._locationChanged(ev, 'work', 'longitude')}"
           .hass="${this.hass}"

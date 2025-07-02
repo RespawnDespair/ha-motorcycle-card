@@ -690,6 +690,7 @@
       );
     }
     render() {
+      var _a6, _b2, _c, _d;
       if (!this.hass || !this._config) {
         return x``;
       }
@@ -704,7 +705,7 @@
         ></ha-textfield>
         <ha-selector-number
           label="Latitude"
-          .value="${(home_location == null ? void 0 : home_location.latitude) || ""}"
+          .value="${(_a6 = home_location == null ? void 0 : home_location.latitude) != null ? _a6 : 0}"
           .configValue="home_location.latitude"
           @change="${(ev) => this._locationChanged(ev, "home", "latitude")}"
           .hass="${this.hass}"
@@ -712,7 +713,7 @@
         ></ha-selector-number>
         <ha-selector-number
           label="Longitude"
-          .value="${(home_location == null ? void 0 : home_location.longitude) || ""}"
+          .value="${(_b2 = home_location == null ? void 0 : home_location.longitude) != null ? _b2 : 0}"
           .configValue="home_location.longitude"
           @change="${(ev) => this._locationChanged(ev, "home", "longitude")}"
           .hass="${this.hass}"
@@ -727,7 +728,7 @@
         ></ha-textfield>
         <ha-selector-number
           label="Latitude"
-          .value="${(work_location == null ? void 0 : work_location.latitude) || ""}"
+          .value="${(_c = work_location == null ? void 0 : work_location.latitude) != null ? _c : 0}"
           .configValue="work_location.latitude"
           @change="${(ev) => this._locationChanged(ev, "work", "latitude")}"
           .hass="${this.hass}"
@@ -735,7 +736,7 @@
         ></ha-selector-number>
         <ha-selector-number
           label="Longitude"
-          .value="${(work_location == null ? void 0 : work_location.longitude) || ""}"
+          .value="${(_d = work_location == null ? void 0 : work_location.longitude) != null ? _d : 0}"
           .configValue="work_location.longitude"
           @change="${(ev) => this._locationChanged(ev, "work", "longitude")}"
           .hass="${this.hass}"
