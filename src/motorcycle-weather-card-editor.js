@@ -1,14 +1,8 @@
-
 import { LitElement, html, css } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
 
-@customElement('motorcycle-weather-card-editor')
 export class MotorcycleWeatherCardEditor extends LitElement {
-  @property({ attribute: false }) hass;
-  @property({ type: Object }) config;
-
   static get properties() {
-    return { hass: {}, config: {} };
+    return { hass: { type: Object }, config: { type: Object } };
   }
 
   _valueChanged(ev) {
@@ -160,3 +154,5 @@ export class MotorcycleWeatherCardEditor extends LitElement {
     `;
   }
 }
+
+customElements.define('motorcycle-weather-card-editor', MotorcycleWeatherCardEditor);
