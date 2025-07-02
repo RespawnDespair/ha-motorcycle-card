@@ -19,6 +19,7 @@ A Lovelace card for Home Assistant that shows a 7-day forecast and determines if
 2.  **Install the card:**
     *   The "Motorcycle Weather Card" should now be visible in the HACS frontend section.
     *   Click on it and then click "Install". HACS will ask you to add the resource to your Lovelace dashboards.
+    *   **Important:** If you have a previous version installed, please remove it from HACS first and then reinstall it.
 3.  **Add to your Lovelace dashboard:**
     *   Go to your dashboard, click the three dots, and select "Edit Dashboard".
     *   Click the "+" button to add a new card.
