@@ -746,7 +746,7 @@
         <h3>Criteria</h3>
         <ha-selector-number
           label="Minimum Temperature (°C)"
-          .value="${temperature_threshold || 15}"
+          .value="${temperature_threshold != null ? temperature_threshold : 15}"
           .configValue="temperature_threshold"
           @change="${this._valueChanged}"
           .hass="${this.hass}"
@@ -754,7 +754,7 @@
         ></ha-selector-number>
         <ha-selector-number
           label="Maximum Rain Probability (%)"
-          .value="${rain_threshold || 20}"
+          .value="${rain_threshold != null ? rain_threshold : 20}"
           .configValue="rain_threshold"
           @change="${this._valueChanged}"
           .hass="${this.hass}"
@@ -762,7 +762,7 @@
         ></ha-selector-number>
         <ha-selector-number
           label="Travel Start Hour (0-23)"
-          .value="${travel_start_hour || 7}"
+          .value="${travel_start_hour != null ? travel_start_hour : 7}"
           .configValue="travel_start_hour"
           @change="${this._valueChanged}"
           .hass="${this.hass}"
@@ -770,7 +770,7 @@
         ></ha-selector-number>
         <ha-selector-number
           label="Travel End Hour (0-23)"
-          .value="${travel_end_hour || 19}"
+          .value="${travel_end_hour != null ? travel_end_hour : 19}"
           .configValue="travel_end_hour"
           @change="${this._valueChanged}"
           .hass="${this.hass}"
