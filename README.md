@@ -14,7 +14,7 @@ A Lovelace card for Home Assistant that shows a 7-day forecast and determines if
 1.  **Add as a custom repository in HACS:**
     *   Go to HACS > Frontend > three dots in the top right > Custom repositories.
     *   Add the URL to this GitHub repository.
-    *   Select "Lovelace" as the category.
+    *   Select "Plugin" as the category.
     *   Click "Add".
 2.  **Install the card:**
     *   The "Motorcycle Weather Card" should now be visible in the HACS frontend section.
