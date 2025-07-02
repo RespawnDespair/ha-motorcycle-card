@@ -5,6 +5,10 @@ export class MotorcycleWeatherCardEditor extends LitElement {
     return { hass: { type: Object }, config: { type: Object } };
   }
 
+  setConfig(config) {
+    this.config = config;
+  }
+
   _valueChanged(ev) {
     if (!this.config || !this.hass) {
       return;
