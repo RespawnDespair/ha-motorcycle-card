@@ -2,27 +2,28 @@ import { LitElement, html, css } from 'lit';
 
 export class MotorcycleWeatherCardEditor extends LitElement {
   static get properties() {
-    return { hass: { type: Object }, config: { type: Object } };
+    return { hass: { type: Object }, _config: { type: Object } };
   }
 
   setConfig(config) {
-    this.config = config;
+    console.log('Editor setConfig called with:', config);
+    this._config = config;
   }
 
   _valueChanged(ev) {
-    if (!this.config || !this.hass) {
+    if (!this._config || !this.hass) {
       return;
     }
     const target = ev.target;
-    if (this.config[`${target.configValue}`] === target.value) {
+    if (this._config[`${target.configValue}`] === target.value) {
       return;
     }
     if (target.configValue) {
       if (target.value === '') {
-        delete this.config[target.configValue];
+        delete this._config[target.configValue];
       } else {
-        this.config = {
-          ...this.config,
+        this._config = {
+          ...this._config,
           [target.configValue]: target.checked !== undefined && target.checked !== null
             ? target.checked
             : target.value,
@@ -30,30 +31,30 @@ export class MotorcycleWeatherCardEditor extends LitElement {
       }
     }
     this.dispatchEvent(
-      new CustomEvent('config-changed', { detail: { config: this.config } })
+      new CustomEvent('config-changed', { detail: { config: this._config } })
     );
   }
 
   _locationChanged(ev, locationType, field) {
     const value = ev.target.value;
-    this.config = {
-      ...this.config,
+    this._config = {
+      ...this._config,
       [`${locationType}_location`]: {
-        ...this.config[`${locationType}_location`],
+        ...this._config[`${locationType}_location`],
         [field]: field === 'name' ? value : parseFloat(value),
       },
     };
     this.dispatchEvent(
-      new CustomEvent('config-changed', { detail: { config: this.config } })
+      new CustomEvent('config-changed', { detail: { config: this._config } })
     );
   }
 
   render() {
-    if (!this.hass || !this.config) {
+    if (!this.hass || !this._config) {
       return html``;
     }
 
-    const { home_location, work_location, temperature_threshold, rain_threshold, travel_start_hour, travel_end_hour } = this.config;
+    const { home_location, work_location, temperature_threshold, rain_threshold, travel_start_hour, travel_end_hour } = this._config;
 
     return html`
       <div class="card-config">
