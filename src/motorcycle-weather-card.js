@@ -1,3 +1,4 @@
+
 import { LitElement, html, css } from 'lit';
 
 class MotorcycleWeatherCard extends LitElement {
@@ -36,7 +37,7 @@ class MotorcycleWeatherCard extends LitElement {
     const home = this._config.home_location;
     const work = this._config.work_location;
 
-    const homeUrl = `https://api.open-meteo.com/v1/forecast?latitude=${home.latitude}&longitude=${home.longitude}&hourly=temperature_2m,precipitation_probability`;
+    const homeUrl = `https://api.open-meteo.com/v1/forecast?latitude=${home.latitude}&longitude=${home.longitude}&hourly=temperature_2m,precipitation_probability&daily=weathercode`;
     const workUrl = `https://api.open-meteo.com/v1/forecast?latitude=${work.latitude}&longitude=${work.longitude}&hourly=temperature_2m,precipitation_probability`;
 
     try {
@@ -59,6 +60,7 @@ class MotorcycleWeatherCard extends LitElement {
     for (let i = 0; i < 7; i++) {
       const day = {
         date: new Date(),
+        weatherIcon: this.getWeatherIcon(homeData.daily.weathercode[i]),
         home: { go: true, reason: '' },
         work: { go: true, reason: '' },
       };
@@ -90,6 +92,30 @@ class MotorcycleWeatherCard extends LitElement {
     return dailyWeather;
   }
 
+  getWeatherIcon(wmoCode) {
+    const iconMap = {
+      0: 'mdi:weather-sunny',
+      1: 'mdi:weather-partly-cloudy',
+      2: 'mdi:weather-cloudy',
+      3: 'mdi:weather-cloudy',
+      45: 'mdi:weather-fog',
+      48: 'mdi:weather-fog',
+      51: 'mdi:weather-rainy',
+      53: 'mdi:weather-rainy',
+      55: 'mdi:weather-rainy',
+      61: 'mdi:weather-pouring',
+      63: 'mdi:weather-pouring',
+      65: 'mdi:weather-pouring',
+      80: 'mdi:weather-pouring',
+      81: 'mdi:weather-pouring',
+      82: 'mdi:weather-pouring',
+      95: 'mdi:weather-lightning-rainy',
+      96: 'mdi:weather-lightning-rainy',
+      99: 'mdi:weather-lightning-rainy',
+    };
+    return iconMap[wmoCode] || 'mdi:weather-sunny';
+  }
+
   render() {
     if (!this.weather) {
       return html`<ha-card header="Motorcycle Weather"><div class="card-content"><p>Loading weather...</p></div></ha-card>`;
@@ -101,18 +127,17 @@ class MotorcycleWeatherCard extends LitElement {
           <div class="calendar">
             ${this.weather.map((day) => html`
               <div class="day">
-                <div class="date">${day.date.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' })}</div>
-                <div class="locations">
-                  <div class="location">
-                    <span>${this._config.home_location.name}</span>
-                    <span class="icon">${day.home.go ? '✅' : '❌'}</span>
-                    <span class="reason">${day.home.reason}</span>
-                  </div>
-                  <div class="location">
-                    <span>${this._config.work_location.name}</span>
-                    <span class="icon">${day.work.go ? '✅' : '❌'}</span>
-                    <span class="reason">${day.work.reason}</span>
-                  </div>
+                <div class="date">${day.date.toLocaleDateString(undefined, { weekday: 'short' })}</div>
+                <div class="icon-container">
+                    <ha-icon icon="${day.weatherIcon}"></ha-icon>
+                </div>
+                <div class="location">
+                  <span>${this._config.home_location.name}</span>
+                  <span class="icon">${day.home.go ? '✅' : '❌'}</span>
+                </div>
+                <div class="location">
+                  <span>${this._config.work_location.name}</span>
+                  <span class="icon">${day.work.go ? '✅' : '❌'}</span>
                 </div>
               </div>
             `)}
@@ -125,37 +150,48 @@ class MotorcycleWeatherCard extends LitElement {
   static get styles() {
     return css`
       .calendar {
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 8px;
       }
       .day {
         display: flex;
         flex-direction: column;
-        border: 1px solid var(--primary-text-color);
-        border-radius: 8px;
+        align-items: center;
+        text-align: center;
         padding: 8px;
+        border-radius: 8px;
+        background-color: var(--ha-card-background, var(--card-background-color, white));
+        box-shadow: var(--ha-card-box-shadow, 0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12));
       }
       .date {
         font-weight: bold;
-        text-align: center;
         margin-bottom: 8px;
       }
-      .locations {
-        display: flex;
-        justify-content: space-around;
+      .icon-container {
+        margin-bottom: 8px;
+      }
+      ha-icon {
+        --mdc-icon-size: 32px;
       }
       .location {
         display: flex;
-        flex-direction: column;
         align-items: center;
-        gap: 4px;
+        justify-content: space-between;
+        width: 100%;
+        margin-top: 4px;
+      }
+      .location span {
+        font-size: 12px;
       }
       .icon {
-        font-size: 24px;
+        font-size: 18px;
       }
-      .reason {
-        font-size: 12px;
+
+      @media (max-width: 600px) {
+        .calendar {
+          grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        }
       }
     `;
   }
